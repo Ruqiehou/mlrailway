@@ -16,7 +16,40 @@
             background-color: #f3f5f0;
             color: #1e2b2f;
             line-height: 1.6;
-            padding: 2rem 1rem;
+            padding: 0 1rem 2rem;
+        }
+
+        /* 一级导航条 */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(254, 254, 247, 0.94);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #bdc9ae;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.6rem 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 0 22px 22px;
+            box-shadow: 0 6px 14px rgba(43, 74, 59, 0.12);
+        }
+        .top-nav a {
+            color: #2d4f3b;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 30px;
+            transition: background 0.2s, color 0.2s;
+            white-space: nowrap;
+        }
+        .top-nav a:hover {
+            background: #cbdbbc;
+            color: #1d3b1d;
         }
 
         .container {
@@ -58,7 +91,7 @@
             color: #2d4f3b;
             border-bottom: 3px solid #bdc9ae;
             padding-bottom: 0.4rem;
-            scroll-margin-top: 2rem;
+            scroll-margin-top: 90px;
             background: linear-gradient(to right, #f0f5ea, transparent);
             padding-left: 1rem;
         }
@@ -82,6 +115,11 @@
             color: #557358;
             padding-left: 0.75rem;
             border-left: 3px dashed #b1c6a5;
+        }
+
+        /* 二级标题锚点滚动偏移 */
+        h3 {
+            scroll-margin-top: 90px;
         }
 
         /* 普通段落 */
@@ -353,7 +391,7 @@
 
         /* 处理 toc 锚点 */
         .anchor {
-            scroll-margin-top: 60px;
+            scroll-margin-top: 90px;
         }
 
         /* 特殊符号 */
@@ -366,6 +404,18 @@
     </style>
 </head>
 <body>
+<nav class="top-nav">
+    <a href="#preamble">序言</a>
+    <a href="#basic-livelihood">基础民生</a>
+    <a href="#identity">身份</a>
+    <a href="#transport">交通出行</a>
+    <a href="#commerce">商贸流通</a>
+    <a href="#honor">个人荣誉</a>
+    <a href="#special-goods">特殊商品</a>
+    <a href="#recycle">回收通知</a>
+    <a href="#other-notice">其他通知</a>
+    <a href="#epilogue">尾声</a>
+</nav>
 <div class="container">
     <h1>慕联天轩币使用条例</h1>
     <div class="subhead">官方符号 <span class="currency-sym">ㄖ</span>  ·  单位为“文”  ·  通行于慕联全境</div>
@@ -424,6 +474,24 @@
                     <a href="#radio">—— 电台宣传</a>
                     <a href="#official">—— 官方号宣传</a>
                     <a href="#fengdi">—— 封地系统</a>
+                </div>
+            </div>
+            
+            <div class="toc-item">
+                <a href="#special-goods" onclick="toggleToc(this)"><span class="toc-toggle">▼</span>特殊商品</a>
+                <div class="toc-children">
+                    <a href="#shrine">—— 神龛</a>
+                </div>
+            </div>
+            
+            <div class="toc-item">
+                <a href="#recycle"><span class="toc-toggle hidden">▼</span>回收通知</a>
+            </div>
+            
+            <div class="toc-item">
+                <a href="#other-notice" onclick="toggleToc(this)"><span class="toc-toggle">▼</span>其他通知</a>
+                <div class="toc-children">
+                    <a href="#limit-notice">—— 限额通知</a>
                 </div>
             </div>
             
@@ -701,6 +769,45 @@
         </div>
         
         <p><strong>封地名录：</strong>具体可授予的四级行政区封地名录将于官方公告中体现。</p>
+    </section>
+
+    <!-- 特殊商品 -->
+    <section id="special-goods" class="anchor">
+        <h2>特殊商品</h2>
+
+        <h3 id="shrine">神龛</h3>
+        <table class="price-table">
+            <tr><th>等级</th><th>容量</th><th>价格 (文)</th></tr>
+            <tr><td>甲级</td><td>9个保护神</td><td>18000</td></tr>
+            <tr><td>乙级</td><td>7个保护神</td><td>14000</td></tr>
+            <tr><td>丙级</td><td>5个保护神</td><td>10000</td></tr>
+            <tr><td>丁级</td><td>3个保护神</td><td>6000</td></tr>
+        </table>
+        <p>自靖渊元年十一月元日起开放购买。</p>
+    </section>
+
+    <!-- 回收通知 -->
+    <section id="recycle" class="anchor">
+        <h2>回收通知</h2>
+        <p>戢辰全货物有限公司对宠物开放回收，价格为市价六折，长期有效。</p>
+    </section>
+
+    <!-- 其他通知 -->
+    <section id="other-notice" class="anchor">
+        <h2>其他通知</h2>
+
+        <h3 id="limit-notice">限额通知</h3>
+        <p>车、船、宠物大类，车、船数目合计：</p>
+        <table class="price-table">
+            <tr><th>居所</th><th>限额</th></tr>
+            <tr><td>集体宿舍、四等房</td><td>2（单人）</td></tr>
+            <tr><td>三等房</td><td>4（集体，以居所为准，多人共住共享限额）</td></tr>
+            <tr><td>二等房</td><td>6（集体，以居所为准，多人共住共享限额）</td></tr>
+            <tr><td>世家府邸、王公府邸</td><td>5（单人）</td></tr>
+            <tr><td>各种奖励的院等以及一等房</td><td>8（集体，多人共住共享限额）</td></tr>
+            <tr><td>皇宫居所</td><td>8（单人）</td></tr>
+        </table>
+        <p>限额以最大数目为准，不得叠加。自靖渊元年十一月元日起施行。</p>
     </section>
 
     <!-- 尾声 -->
