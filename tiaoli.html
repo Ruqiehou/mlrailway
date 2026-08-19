@@ -12,7 +12,7 @@
         }
 
         html {
-            scroll-padding-top: 120px;
+            scroll-padding-top: 160px;
         }
 
         body {
@@ -25,35 +25,80 @@
 
         /* 一级导航条 */
         .top-nav {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            bottom: 0;
+            width: 220px;
             z-index: 100;
-            background: rgba(254, 254, 247, 0.94);
+            background: rgba(254, 254, 247, 0.96);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid #bdc9ae;
+            border-right: 1px solid #bdc9ae;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 0.6rem 1rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0 0 22px 22px;
-            box-shadow: 0 6px 14px rgba(43, 74, 59, 0.12);
+            align-items: flex-start;
+            gap: 0.6rem;
+            padding: 2rem 1rem;
+            box-shadow: 6px 0 18px rgba(43, 74, 59, 0.12);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        .top-nav.open {
+            transform: translateX(0);
         }
         .top-nav a {
             color: #2d4f3b;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
-            padding: 0.4rem 0.9rem;
+            font-size: 1rem;
+            padding: 0.55rem 1rem;
             border-radius: 30px;
             transition: background 0.2s, color 0.2s;
             white-space: nowrap;
+            width: 100%;
+            text-align: center;
         }
         .top-nav a:hover {
             background: #cbdbbc;
             color: #1d3b1d;
+        }
+
+        /* 移动端侧边导航触发按钮 */
+        .nav-toggle {
+            display: none;
+            position: fixed;
+            top: 0.8rem;
+            left: 0.8rem;
+            z-index: 110;
+            background: rgba(254, 254, 247, 0.94);
+            border: 1px solid #bdc9ae;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.4rem;
+            color: #2d4f3b;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(43,74,59,0.12);
+        }
+
+        @media (max-width: 768px) {
+            .top-nav {
+                transform: translateX(-100%);
+            }
+            .top-nav.open {
+                transform: translateX(0);
+            }
+            .nav-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .container {
+                margin-left: 0;
+                padding-top: 4rem;
+            }
         }
 
         .container {
@@ -95,7 +140,7 @@
             color: #2d4f3b;
             border-bottom: 3px solid #bdc9ae;
             padding-bottom: 0.4rem;
-            scroll-margin-top: 120px;
+            scroll-margin-top: 160px;
             background: linear-gradient(to right, #f0f5ea, transparent);
             padding-left: 1rem;
         }
@@ -123,7 +168,7 @@
 
         /* 二级标题锚点滚动偏移 */
         h3 {
-            scroll-margin-top: 120px;
+            scroll-margin-top: 160px;
         }
 
         /* 普通段落 */
@@ -336,6 +381,13 @@
             }
         }
 
+        /* 桌面端侧边栏预留内容区 */
+        @media (min-width: 769px) {
+            .container {
+                margin-left: 220px;
+            }
+        }
+
         /* 跳转链接卡片 (与之前设计一致) */
         .fare-link-card {
             background: #e2ebd8;
@@ -408,7 +460,8 @@
     </style>
 </head>
 <body>
-<nav class="top-nav">
+<button class="nav-toggle" onclick="toggleNav()" aria-label="菜单">☰</button>
+<nav class="top-nav" id="topNav">
     <a href="#preamble">序言</a>
     <a href="#basic-livelihood">基础民生</a>
     <a href="#identity">身份</a>
@@ -837,6 +890,10 @@
             toggle.classList.toggle('collapsed');
             children.classList.toggle('collapsed');
         }
+    }
+
+    function toggleNav() {
+        document.getElementById('topNav').classList.toggle('open');
     }
 </script>
 </body>
