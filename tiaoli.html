@@ -457,9 +457,56 @@
             padding: 0.1rem 0.3rem;
             border-radius: 12px;
         }
+
+        /* 回主页按钮 */
+        .btn-home-fixed {
+            position: fixed;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.65rem 1.2rem;
+            font-size: 0.9rem;
+            color: #446544;
+            background: rgba(254, 254, 247, 0.96);
+            border: 1px solid #b7d6a8;
+            border-radius: 40px;
+            text-decoration: none;
+            letter-spacing: 0.1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .btn-home-fixed:hover {
+            background: #e2ebd8;
+            border-color: #708a64;
+            color: #2d4f3b;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+        .btn-home-fixed:active {
+            transform: translateY(-50%) scale(0.97);
+        }
+        @media (max-width: 768px) {
+            .btn-home-fixed {
+                right: 50%;
+                transform: translateX(50%);
+                top: auto;
+                bottom: 1.5rem;
+            }
+            .btn-home-fixed:active {
+                transform: translateX(50%) scale(0.97);
+            }
+        }
     </style>
 </head>
 <body>
+<a href="index.html" class="btn-home-fixed">
+    <span>🏠</span>
+    <span>回主页</span>
+</a>
 <button class="nav-toggle" onclick="toggleNav()" aria-label="菜单">☰</button>
 <nav class="top-nav" id="topNav">
     <a href="#preamble">序言</a>
