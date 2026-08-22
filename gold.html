@@ -239,6 +239,7 @@
             min-width: 118px;
             padding: 0.65rem 1.2rem;
             font-size: 0.9rem;
+            font-family: inherit;
             color: #c8a84e;
             background: rgba(15, 12, 8, 0.86);
             border: 1px solid rgba(255, 215, 0, 0.22);
@@ -396,6 +397,145 @@
             .price-table th, .price-table td { padding: 0.5rem 0.4rem; font-size: 0.8rem; }
             .price-table .price-val { font-size: 0.95rem; }
         }
+
+        /* ===== 金价走势折线图 ===== */
+        .chart-wrap {
+            margin-top: 2rem;
+        }
+        .chart-title {
+            font-size: 1.1rem;
+            color: #ffd700;
+            text-align: center;
+            letter-spacing: 0.3rem;
+            margin-bottom: 1rem;
+        }
+        .chart-box {
+            position: relative;
+            background: rgba(255, 215, 0, 0.04);
+            border: 1px solid rgba(255, 215, 0, 0.14);
+            border-radius: 14px;
+            padding: 1rem;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+        }
+        #priceChart {
+            display: block;
+            width: 100%;
+            height: 320px;
+        }
+        .chart-empty {
+            position: absolute;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            letter-spacing: 0.2rem;
+        }
+        @media (max-width: 680px) {
+            #priceChart { height: 240px; }
+            .chart-box { padding: 0.6rem; }
+        }
+
+        /* ===== 统计卡片 ===== */
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: rgba(255, 215, 0, 0.04);
+            border: 1px solid rgba(255, 215, 0, 0.14);
+            border-radius: 14px;
+            padding: 1rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        .stat-card:hover { border-color: rgba(255, 215, 0, 0.35); }
+        .stat-label { font-size: 0.8rem; color: #8a7a5a; letter-spacing: 0.15rem; margin-bottom: 0.45rem; }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: #ffd700; font-variant-numeric: tabular-nums; }
+        .stat-value.small { font-size: 1.05rem; line-height: 1.8rem; }
+        .stat-value.up { color: #ff6b6b; }
+        .stat-value.down { color: #00a651; }
+        .stat-sub { font-size: 0.75rem; color: #6a5a3a; margin-top: 0.35rem; }
+
+        /* ===== 最新行高亮 ===== */
+        .price-table tr.row-latest td { background: rgba(255, 215, 0, 0.09); }
+        .price-table tr.row-latest td:first-child { box-shadow: inset 3px 0 0 #ffd700; }
+        .badge-latest {
+            display: inline-block;
+            margin-left: 0.4rem;
+            padding: 0.1rem 0.5rem;
+            font-size: 0.7rem;
+            color: #0a0a0a;
+            background: #ffd700;
+            border-radius: 20px;
+            letter-spacing: 0.1rem;
+            vertical-align: middle;
+        }
+
+        /* ===== 发布倒计时 ===== */
+        .countdown-box { text-align: center; }
+        .countdown-label { font-size: 0.95rem; color: #8a7a5a; letter-spacing: 0.25rem; }
+        .countdown-next { color: #ffd700; font-weight: 700; }
+        .countdown-time {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffd700;
+            letter-spacing: 0.2rem;
+            margin-top: 0.4rem;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 0 24px rgba(255, 215, 0, 0.35);
+        }
+
+        /* ===== 图表悬停提示框 ===== */
+        .chart-tooltip {
+            position: absolute;
+            display: none;
+            pointer-events: none;
+            background: rgba(15, 12, 8, 0.95);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            border-radius: 10px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.8rem;
+            color: #e0e0e0;
+            white-space: nowrap;
+            z-index: 5;
+            transform: translate(-50%, calc(-100% - 14px));
+        }
+        .chart-tooltip .tt-price { color: #ffd700; font-weight: 700; font-size: 1rem; }
+        .chart-tooltip .tt-up { color: #ff6b6b; }
+        .chart-tooltip .tt-down { color: #00a651; }
+
+        @media (max-width: 680px) {
+            .stat-cards { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+            .stat-card { padding: 0.7rem 0.5rem; }
+            .stat-value { font-size: 1.15rem; }
+            .stat-value.small { font-size: 0.9rem; line-height: 1.5rem; }
+            .countdown-time { font-size: 1.6rem; }
+        }
+
+        /* ===== 复制提示 toast ===== */
+        .copy-toast {
+            position: fixed;
+            left: 50%;
+            bottom: 6.5rem;
+            transform: translateX(-50%) translateY(16px);
+            background: rgba(15, 12, 8, 0.95);
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            color: #ffd700;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            letter-spacing: 0.05rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 20;
+            max-width: 90vw;
+            text-align: center;
+        }
+        .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
@@ -421,6 +561,10 @@
     <div class="divider"></div>
 
     <div class="btn-group">
+        <button type="button" class="btn-home" id="copyLatestBtn">
+            <span class="home-icon">📋</span>
+            <span id="copyLatestText">复制最新价</span>
+        </button>
         <a href="#top" class="btn-home" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'});">
             <span class="home-icon">⬆️</span>
             <span>回到顶部</span>
@@ -435,6 +579,34 @@
 
 <div class="price-data-hidden" id="priceData">
     <h2>金价数据</h2>
+
+    <div class="countdown-box" id="countdownBox">
+        <div class="countdown-label">距下次发布（<span class="countdown-next" id="nextSlot">--:--</span>）还有</div>
+        <div class="countdown-time" id="countdownTime">--:--:--</div>
+    </div>
+
+    <div class="stat-cards" id="statCards">
+        <div class="stat-card">
+            <div class="stat-label">最新价（文/克）</div>
+            <div class="stat-value" id="statLatest">--</div>
+            <div class="stat-sub" id="statLatestTime">--</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">较上次涨跌</div>
+            <div class="stat-value" id="statChange">--</div>
+            <div class="stat-sub" id="statChangePct">--</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">当日最高 / 最低</div>
+            <div class="stat-value small" id="statRange">--</div>
+            <div class="stat-sub" id="statRangeDate">--</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">当日均价</div>
+            <div class="stat-value" id="statAvg">--</div>
+            <div class="stat-sub" id="statAvgCount">--</div>
+        </div>
+    </div>
 
     <table class="price-table">
         <thead>
@@ -485,14 +657,46 @@
             </tr>
             <tr>
                 <td>2026-08-21</td>
-                <td>18:00</td>
+                <td>19:00</td>
                 <td class="price-val">421.39</td>
                 <td class="tag-down">跌</td>
                 <td class="tag-pending">开市</td>
             </tr>
+            <tr>
+                <td>2026-08-22</td>
+                <td>14:00</td>
+                <td class="tag-pending">--</td>
+                <td class="tag-pending">待发布</td>
+                <td class="tag-pending">开市</td>
+            </tr>
+            <tr>
+                <td>2026-08-22</td>
+                <td>16:00</td>
+                <td class="tag-pending">--</td>
+                <td class="tag-pending">待发布</td>
+                <td class="tag-pending">开市</td>
+            </tr>
+            <tr>
+                <td>2026-08-22</td>
+                <td>18:00</td>
+                <td class="tag-pending">--</td>
+                <td class="tag-pending">待发布</td>
+                <td class="tag-pending">开市</td>
+            </tr>
         </tbody>
     </table>
+
+    <div class="chart-wrap">
+        <div class="chart-title">金价走势</div>
+        <div class="chart-box">
+            <canvas id="priceChart"></canvas>
+            <div class="chart-empty" id="chartEmpty">暂无已发布价格数据</div>
+            <div class="chart-tooltip" id="chartTooltip"></div>
+        </div>
+    </div>
 </div>
+
+<div class="copy-toast" id="copyToast"></div>
 
 <footer>版权所有 © 2019-2026 天狐慕氏联邦帝国 · 金玉满堂</footer>
 
@@ -509,6 +713,352 @@
             p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
             container.appendChild(p);
         }
+    })();
+
+    /* ===== 金价数据联动：统计卡片 / 涨跌额 / 最新高亮 / 折线图 / 倒计时 ===== */
+    (function() {
+        const canvas = document.getElementById('priceChart');
+        const emptyTip = document.getElementById('chartEmpty');
+        const tooltip = document.getElementById('chartTooltip');
+        const tbody = document.querySelector('#priceData tbody');
+        const thead = document.querySelector('#priceData thead tr');
+        const ctx = canvas.getContext('2d');
+        let chartPoints = []; // 缓存数据点坐标，供悬停检测
+
+        // 从表格读取全部行数据（克隆节点并剔除"最新"徽章，避免文本污染）
+        function cellText(td) {
+            const clone = td.cloneNode(true);
+            clone.querySelectorAll('.badge-latest').forEach(b => b.remove());
+            return clone.textContent.trim();
+        }
+        function readAll() {
+            return Array.from(tbody.querySelectorAll('tr')).map(tr => {
+                const tds = tr.querySelectorAll('td');
+                return {
+                    tr,
+                    date: cellText(tds[0]),
+                    time: cellText(tds[1]),
+                    price: parseFloat(cellText(tds[2]))
+                };
+            });
+        }
+
+        // 涨跌额列：不存在则创建
+        function ensureChangeCol() {
+            if (!thead.querySelector('.th-change')) {
+                const th = document.createElement('th');
+                th.className = 'th-change';
+                th.textContent = '涨跌额';
+                thead.insertBefore(th, thead.children[4]); // 插在"备注"前
+            }
+            tbody.querySelectorAll('tr').forEach(tr => {
+                if (tr.querySelectorAll('td').length < 6) {
+                    tr.insertBefore(document.createElement('td'), tr.children[4]);
+                }
+            });
+        }
+
+        // 统计卡片
+        function updateStats(published) {
+            const set = (id, text) => document.getElementById(id).textContent = text;
+            if (!published.length) {
+                ['statLatest', 'statChange', 'statRange', 'statAvg'].forEach(id => set(id, '--'));
+                ['statLatestTime', 'statChangePct', 'statRangeDate', 'statAvgCount'].forEach(id => set(id, '--'));
+                return;
+            }
+            const latest = published[published.length - 1];
+            set('statLatest', latest.price.toFixed(2));
+            set('statLatestTime', latest.date.slice(5) + ' ' + latest.time);
+
+            const changeEl = document.getElementById('statChange');
+            if (published.length >= 2) {
+                const prev = published[published.length - 2];
+                const diff = latest.price - prev.price;
+                const pct = (diff / prev.price * 100).toFixed(2);
+                changeEl.textContent = (diff >= 0 ? '+' : '') + diff.toFixed(2);
+                changeEl.className = 'stat-value ' + (diff >= 0 ? 'up' : 'down');
+                set('statChangePct', (diff >= 0 ? '+' : '') + pct + '%');
+            } else {
+                changeEl.textContent = '--';
+                changeEl.className = 'stat-value';
+                set('statChangePct', '暂无对比');
+            }
+
+            const today = published.filter(d => d.date === latest.date);
+            const prices = today.map(d => d.price);
+            set('statRange', Math.max(...prices).toFixed(2) + ' / ' + Math.min(...prices).toFixed(2));
+            set('statRangeDate', latest.date);
+            set('statAvg', (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(2));
+            set('statAvgCount', '当日共 ' + today.length + ' 次发布');
+        }
+
+        // 涨跌额列填充 + 最新行高亮
+        function updateTable(all, published) {
+            tbody.querySelectorAll('.badge-latest').forEach(b => b.remove());
+            tbody.querySelectorAll('tr.row-latest').forEach(tr => tr.classList.remove('row-latest'));
+
+            let prev = null;
+            all.forEach(d => {
+                const cell = d.tr.children[4]; // 涨跌额单元格
+                if (isNaN(d.price)) {
+                    cell.textContent = '--';
+                    cell.className = 'tag-pending';
+                    return;
+                }
+                if (prev === null) {
+                    cell.textContent = '—';
+                    cell.className = 'tag-pending';
+                } else {
+                    const diff = d.price - prev;
+                    cell.textContent = (diff >= 0 ? '+' : '') + diff.toFixed(2);
+                    cell.className = diff >= 0 ? 'tag-up' : 'tag-down';
+                }
+                prev = d.price;
+            });
+
+            if (published.length) {
+                const latestTr = published[published.length - 1].tr;
+                latestTr.classList.add('row-latest');
+                const badge = document.createElement('span');
+                badge.className = 'badge-latest';
+                badge.textContent = '最新';
+                latestTr.children[1].appendChild(badge);
+            }
+        }
+
+        function draw() {
+            const data = readAll().filter(d => !isNaN(d.price))
+                .map(d => ({ label: d.date.slice(5) + ' ' + d.time, price: d.price, date: d.date, time: d.time }));
+            chartPoints = [];
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            const W = rect.width, H = rect.height;
+            ctx.clearRect(0, 0, W, H);
+
+            if (!data.length) {
+                emptyTip.style.display = 'flex';
+                return;
+            }
+            emptyTip.style.display = 'none';
+
+            const padL = 52, padR = 20, padT = 24, padB = 40;
+            const plotW = W - padL - padR, plotH = H - padT - padB;
+
+            const prices = data.map(d => d.price);
+            let min = Math.min(...prices), max = Math.max(...prices);
+            if (min === max) { min -= 1; max += 1; }
+            const range = max - min;
+            min -= range * 0.1; max += range * 0.1;
+
+            const x = i => data.length === 1 ? padL + plotW / 2 : padL + plotW * i / (data.length - 1);
+            const y = v => padT + plotH * (1 - (v - min) / (max - min));
+
+            // 横向网格线 + Y 轴刻度
+            ctx.font = '11px "Microsoft YaHei", sans-serif';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            const gridN = 4;
+            for (let g = 0; g <= gridN; g++) {
+                const v = min + (max - min) * g / gridN;
+                const gy = y(v);
+                ctx.strokeStyle = 'rgba(255, 215, 0, 0.08)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padL, gy);
+                ctx.lineTo(W - padR, gy);
+                ctx.stroke();
+                ctx.fillStyle = '#8a7a5a';
+                ctx.fillText(v.toFixed(1), padL - 8, gy);
+            }
+
+            // X 轴标签（数据多时隔个显示）
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            const step = Math.ceil(data.length / Math.max(1, Math.floor(plotW / 70)));
+            data.forEach((d, i) => {
+                if (i % step !== 0 && i !== data.length - 1) return;
+                ctx.fillStyle = '#8a7a5a';
+                ctx.fillText(d.label, x(i), H - padB + 8);
+            });
+
+            // 渐变填充
+            const grad = ctx.createLinearGradient(0, padT, 0, padT + plotH);
+            grad.addColorStop(0, 'rgba(255, 215, 0, 0.25)');
+            grad.addColorStop(1, 'rgba(255, 215, 0, 0)');
+            ctx.beginPath();
+            ctx.moveTo(x(0), padT + plotH);
+            data.forEach((d, i) => ctx.lineTo(x(i), y(d.price)));
+            ctx.lineTo(x(data.length - 1), padT + plotH);
+            ctx.closePath();
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // 折线
+            ctx.beginPath();
+            data.forEach((d, i) => i === 0 ? ctx.moveTo(x(i), y(d.price)) : ctx.lineTo(x(i), y(d.price)));
+            ctx.strokeStyle = '#ffd700';
+            ctx.lineWidth = 2;
+            ctx.lineJoin = 'round';
+            ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
+            ctx.shadowBlur = 8;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // 数据点 + 价格标签
+            data.forEach((d, i) => {
+                const px = x(i), py = y(d.price);
+                ctx.beginPath();
+                ctx.arc(px, py, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#0a0a0a';
+                ctx.fill();
+                ctx.strokeStyle = '#ffd700';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = '#ffd700';
+                ctx.font = 'bold 11px "Microsoft YaHei", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(d.price.toFixed(2), px, py - 8);
+
+                chartPoints.push({ px, py, ...d });
+            });
+        }
+
+        // 悬停 / 触摸提示框
+        function showTooltip(clientX, clientY) {
+            const rect = canvas.getBoundingClientRect();
+            const mx = clientX - rect.left, my = clientY - rect.top;
+            let nearest = null, minDist = 24;
+            chartPoints.forEach(p => {
+                const dist = Math.hypot(p.px - mx, p.py - my);
+                if (dist < minDist) { minDist = dist; nearest = p; }
+            });
+            if (!nearest) { tooltip.style.display = 'none'; return; }
+            const idx = chartPoints.indexOf(nearest);
+            const prev = idx > 0 ? chartPoints[idx - 1] : null;
+            let changeHtml = '<span style="color:#777">首次发布</span>';
+            if (prev) {
+                const diff = nearest.price - prev.price;
+                changeHtml = '<span class="' + (diff >= 0 ? 'tt-up' : 'tt-down') + '">'
+                    + (diff >= 0 ? '▲ +' : '▼ ') + diff.toFixed(2) + '</span>';
+            }
+            tooltip.innerHTML = '<div>' + nearest.date + ' ' + nearest.time + '</div>'
+                + '<div class="tt-price">' + nearest.price.toFixed(2) + ' 文/克</div>'
+                + '<div>较上次：' + changeHtml + '</div>';
+            tooltip.style.display = 'block';
+            tooltip.style.left = (canvas.offsetLeft + nearest.px) + 'px';
+            tooltip.style.top = (canvas.offsetTop + nearest.py) + 'px';
+        }
+        canvas.addEventListener('mousemove', e => showTooltip(e.clientX, e.clientY));
+        canvas.addEventListener('mouseleave', () => tooltip.style.display = 'none');
+        canvas.addEventListener('touchstart', e => {
+            const t = e.touches[0];
+            if (t) showTooltip(t.clientX, t.clientY);
+        }, { passive: true });
+
+        // 下次发布倒计时（每日 14:00 / 16:00 / 18:00）
+        const SLOTS = [14, 16, 18];
+        const pad2 = n => String(n).padStart(2, '0');
+        function tickCountdown() {
+            const now = new Date();
+            let target = null;
+            for (const h of SLOTS) {
+                const t = new Date(now);
+                t.setHours(h, 0, 0, 0);
+                if (t > now) { target = t; break; }
+            }
+            if (!target) {
+                target = new Date(now);
+                target.setDate(target.getDate() + 1);
+                target.setHours(SLOTS[0], 0, 0, 0);
+            }
+            document.getElementById('nextSlot').textContent = pad2(target.getHours()) + ':00';
+            let s = Math.floor((target - now) / 1000);
+            const h = Math.floor(s / 3600); s %= 3600;
+            const m = Math.floor(s / 60); s %= 60;
+            document.getElementById('countdownTime').textContent = pad2(h) + ':' + pad2(m) + ':' + pad2(s);
+        }
+        setInterval(tickCountdown, 1000);
+        tickCountdown();
+
+        // 全量刷新：统计卡片 + 表格涨跌额/高亮 + 折线图
+        function refresh() {
+            ensureChangeCol();
+            const all = readAll();
+            const published = all.filter(d => !isNaN(d.price));
+            updateStats(published);
+            updateTable(all, published);
+            draw();
+            // 丢弃本次刷新自身产生的变更记录，避免 observer 回调死循环
+            observer.takeRecords();
+        }
+
+        // 表格数据变化时实时刷新
+        const observer = new MutationObserver(refresh);
+        observer.observe(tbody, { childList: true, subtree: true, characterData: true });
+        window.addEventListener('resize', draw);
+        refresh();
+
+        // ===== 一键复制最新价 =====
+        const copyBtn = document.getElementById('copyLatestBtn');
+        const copyToast = document.getElementById('copyToast');
+        let toastTimer = null;
+
+        function showToast(msg) {
+            copyToast.textContent = msg;
+            copyToast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => copyToast.classList.remove('show'), 2200);
+        }
+
+        function buildCopyText() {
+            const published = readAll().filter(d => !isNaN(d.price));
+            if (!published.length) return null;
+            const latest = published[published.length - 1];
+            const prev = published.length >= 2 ? published[published.length - 2] : null;
+            let changeStr = '首次发布';
+            if (prev) {
+                const diff = latest.price - prev.price;
+                changeStr = (diff >= 0 ? '涨 +' : '跌 ') + diff.toFixed(2)
+                    + '（' + (diff >= 0 ? '+' : '') + (diff / prev.price * 100).toFixed(2) + '%）';
+            }
+            return '【金玉满堂 · 慕联金价】\n'
+                + '时间：' + latest.date + ' ' + latest.time + '\n'
+                + '金价：' + latest.price.toFixed(2) + ' 文/克\n'
+                + '较上次：' + changeStr;
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast('已复制最新金价 ✔');
+            } catch (e) {
+                showToast('复制失败，请手动复制');
+            }
+            document.body.removeChild(ta);
+        }
+
+        copyBtn.addEventListener('click', () => {
+            const text = buildCopyText();
+            if (!text) { showToast('暂无已发布金价'); return; }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text)
+                    .then(() => showToast('已复制最新金价 ✔'))
+                    .catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        });
     })();
 </script>
 </body>
