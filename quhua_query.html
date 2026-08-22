@@ -295,6 +295,7 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.04);
             border-left: 4px solid;
             transition: all 0.2s;
+            animation: chipIn 0.35s ease backwards;
         }
         .child-item:last-child {
             margin-bottom: 0;
@@ -339,6 +340,67 @@
         }
         .child-nested-container.open {
             display: block;
+        }
+
+        /* ===== 下属区划标题栏 ===== */
+        .children-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+        .children-header::before {
+            content: '';
+            width: 4px;
+            height: 14px;
+            border-radius: 2px;
+            background: linear-gradient(180deg, #667eea, #764ba2);
+        }
+
+        /* ===== 末级地区标签流 ===== */
+        .child-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .child-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            background: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid #eee;
+            transition: all 0.2s;
+            animation: chipIn 0.35s ease backwards;
+        }
+        .child-chip::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .child-chip.level-2 { color: #10b981; }
+        .child-chip.level-2::before { background: #10b981; }
+        .child-chip.level-3 { color: #f59e0b; }
+        .child-chip.level-3::before { background: #f59e0b; }
+        .child-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        .child-chip.level-2:hover { border-color: #10b981; background: #ecfdf5; }
+        .child-chip.level-3:hover { border-color: #f59e0b; background: #fffbeb; }
+        @keyframes chipIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         @media (max-width: 600px) {
             .container {
@@ -541,16 +603,28 @@
         }
 
         function renderChildrenList(children, getLevelNameFn) {
-            let html = '';
-            children.forEach((child) => {
-                const hasGrandChildren = child.children && child.children.length > 0;
-                html += `<div class="child-item level-${child.level}">
+            const leaves = children.filter(c => !(c.children && c.children.length > 0));
+            const branches = children.filter(c => c.children && c.children.length > 0);
+            let html = `<div class="children-header">下属区划 · 共 ${children.length} 个</div>`;
+
+            // 有下级的地区：行布局（可继续展开）
+            branches.forEach((child, i) => {
+                html += `<div class="child-item level-${child.level}" style="animation-delay:${i * 0.04}s">
                     <span class="child-name">${child.name}</span>
                     <span class="level-badge">${getLevelNameFn(child.level)}</span>
-                    ${hasGrandChildren ? `<button class="view-children-btn" onclick="toggleNestedChildren(this)" data-children='${encodeURIComponent(JSON.stringify(child.children))}' data-count="${child.children.length}">查看下属 ${child.children.length} 个地区 ▾</button>` : ''}
-                    ${hasGrandChildren ? `<div class="child-nested-container"></div>` : ''}
+                    <button class="view-children-btn" onclick="toggleNestedChildren(this)" data-children='${encodeURIComponent(JSON.stringify(child.children))}' data-count="${child.children.length}">查看下属 ${child.children.length} 个地区 ▾</button>
+                    <div class="child-nested-container"></div>
                 </div>`;
             });
+
+            // 末级地区：标签流式排列
+            if (leaves.length) {
+                html += '<div class="child-chips">';
+                leaves.forEach((child, i) => {
+                    html += `<span class="child-chip level-${child.level}" style="animation-delay:${(branches.length + i) * 0.04}s">${child.name}</span>`;
+                });
+                html += '</div>';
+            }
             return html;
         }
 
