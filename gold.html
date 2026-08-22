@@ -263,6 +263,58 @@
             font-size: 1.1rem;
         }
 
+        /* ===== 移动端浮动菜单 ===== */
+        .fab-wrap {
+            display: none;
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 20;
+            flex-direction: column-reverse;
+            align-items: flex-end;
+            gap: 0.6rem;
+        }
+        .fab-trigger {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 215, 0, 0.35);
+            background: rgba(15, 12, 8, 0.92);
+            color: #ffd700;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: transform 0.3s, background 0.3s;
+        }
+        .fab-wrap.open .fab-trigger {
+            transform: rotate(45deg);
+            background: rgba(255, 215, 0, 0.15);
+        }
+        .fab-menu {
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: flex-end;
+        }
+        .fab-wrap.open .fab-menu {
+            display: flex;
+            animation: fabIn 0.25s ease;
+        }
+        @keyframes fabIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fab-menu .btn-home {
+            min-width: auto;
+            font-size: 0.82rem;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+        }
+
         footer {
             position: fixed;
             bottom: 0;
@@ -305,18 +357,8 @@
             }
             .coming-soon::before, .coming-soon::after { display: none; }
             .location-tag { font-size: 0.85rem; padding: 0.4rem 1rem; }
-            .btn-group {
-                right: 50%;
-                bottom: 3.6rem;
-                transform: translateX(50%);
-                flex-direction: row;
-                align-items: center;
-            }
-            .btn-home {
-                min-width: auto;
-                font-size: 0.82rem;
-                padding: 0.55rem 1rem;
-            }
+            .btn-group { display: none; }
+            .fab-wrap { display: flex; }
             .schedule { margin-top: 2rem; }
             .schedule-grid {
                 display: grid;
@@ -573,6 +615,24 @@
             <span class="home-icon">🏠</span>
             <span>回主页</span>
         </a>
+    </div>
+
+    <div class="fab-wrap" id="fabWrap">
+        <button type="button" class="fab-trigger" id="fabTrigger" aria-label="菜单">⋯</button>
+        <div class="fab-menu">
+            <button type="button" class="btn-home" id="copyLatestBtnMobile">
+                <span class="home-icon">📋</span>
+                <span>复制最新价</span>
+            </button>
+            <a href="#top" class="btn-home" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'});">
+                <span class="home-icon">⬆️</span>
+                <span>回到顶部</span>
+            </a>
+            <a href="index.html" class="btn-home">
+                <span class="home-icon">🏠</span>
+                <span>回主页</span>
+            </a>
+        </div>
     </div>
 
 </div>
@@ -1005,6 +1065,7 @@
 
         // ===== 一键复制最新价 =====
         const copyBtn = document.getElementById('copyLatestBtn');
+        const copyBtnMobile = document.getElementById('copyLatestBtnMobile');
         const copyToast = document.getElementById('copyToast');
         let toastTimer = null;
 
@@ -1048,7 +1109,7 @@
             document.body.removeChild(ta);
         }
 
-        copyBtn.addEventListener('click', () => {
+        function handleCopy() {
             const text = buildCopyText();
             if (!text) { showToast('暂无已发布金价'); return; }
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1058,6 +1119,22 @@
             } else {
                 fallbackCopy(text);
             }
+        }
+
+        copyBtn.addEventListener('click', handleCopy);
+        copyBtnMobile.addEventListener('click', handleCopy);
+
+        // ===== 移动端浮动菜单 =====
+        const fabWrap = document.getElementById('fabWrap');
+        const fabTrigger = document.getElementById('fabTrigger');
+        fabTrigger.addEventListener('click', () => {
+            fabWrap.classList.toggle('open');
+        });
+        // 点击菜单项后关闭菜单
+        fabWrap.querySelectorAll('.fab-menu .btn-home').forEach(btn => {
+            btn.addEventListener('click', () => {
+                fabWrap.classList.remove('open');
+            });
         });
     })();
 </script>
