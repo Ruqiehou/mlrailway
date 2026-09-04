@@ -996,35 +996,20 @@
                 countdownTimeEl.textContent = '暂无数据';
                 return;
             }
-            // 收集所有时间（去重排序）
-            const allTimes = [...new Set(all.map(d => d.time))].sort();
+            const now = new Date();
+            const today = now.getFullYear() + '-' + pad2(now.getMonth() + 1) + '-' + pad2(now.getDate());
             const latest = published[published.length - 1];
+            // 只用今天实际存在的时间槽
+            const todayAllTimes = [...new Set(all.filter(d => d.date === today).map(d => d.time))].sort();
             const todayPublishedTimes = new Set(
-                published.filter(d => d.date === latest.date).map(d => d.time)
+                published.filter(d => d.date === today).map(d => d.time)
             );
-            // 找今天之后的下一个时间槽
-            let nextTime = allTimes.find(t => t > latest.time && !todayPublishedTimes.has(t));
+            // 找今天还没发布的时间槽
+            let nextTime = todayAllTimes.find(t => !todayPublishedTimes.has(t));
             let target = null;
             if (nextTime) {
-                const [h, m] = nextTime.split(':').map(Number);
-                target = new Date(latest.date + 'T' + nextTime);
-                if (target <= new Date()) target = null; // 已过则不算
-            }
-            if (!target) {
-                // 找最近一个还没全部发布的日期的最早时间槽
-                const allDates = [...new Set(all.map(d => d.date))].sort();
-                const futureDates = allDates.filter(d => d > latest.date);
-                for (const dateStr of futureDates) {
-                    const datePublished = new Set(
-                        published.filter(d => d.date === dateStr).map(d => d.time)
-                    );
-                    const available = allTimes.find(t => !datePublished.has(t));
-                    if (available) {
-                        target = new Date(dateStr + 'T' + available);
-                        nextTime = available;
-                        break;
-                    }
-                }
+                target = new Date(today + 'T' + nextTime);
+                if (target <= now) target = null;
             }
             if (!target) {
                 nextSlotEl.textContent = '已停止';
@@ -1032,7 +1017,7 @@
                 return;
             }
             nextSlotEl.textContent = nextTime;
-            let s = Math.floor((target - new Date()) / 1000);
+            let s = Math.floor((target - now) / 1000);
             if (s <= 0) {
                 countdownTimeEl.textContent = '00:00:00';
                 return;
