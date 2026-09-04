@@ -984,27 +984,62 @@
             if (t) showTooltip(t.clientX, t.clientY);
         }, { passive: true });
 
-        // 下次发布倒计时（每日 14:00 / 16:00 / 18:00）
-        const SLOTS = [14, 16, 18];
+        // 下次发布倒计时：基于表格已有时间槽，找到下一个未发布时刻倒计时
         const pad2 = n => String(n).padStart(2, '0');
         function tickCountdown() {
-            const now = new Date();
+            const all = readAll();
+            const published = all.filter(d => !isNaN(d.price));
+            const nextSlotEl = document.getElementById('nextSlot');
+            const countdownTimeEl = document.getElementById('countdownTime');
+            if (!published.length) {
+                nextSlotEl.textContent = '--:--';
+                countdownTimeEl.textContent = '暂无数据';
+                return;
+            }
+            // 收集所有时间（去重排序）
+            const allTimes = [...new Set(all.map(d => d.time))].sort();
+            const latest = published[published.length - 1];
+            const todayPublishedTimes = new Set(
+                published.filter(d => d.date === latest.date).map(d => d.time)
+            );
+            // 找今天之后的下一个时间槽
+            let nextTime = allTimes.find(t => t > latest.time && !todayPublishedTimes.has(t));
             let target = null;
-            for (const h of SLOTS) {
-                const t = new Date(now);
-                t.setHours(h, 0, 0, 0);
-                if (t > now) { target = t; break; }
+            if (nextTime) {
+                const [h, m] = nextTime.split(':').map(Number);
+                target = new Date(latest.date + 'T' + nextTime);
+                if (target <= new Date()) target = null; // 已过则不算
             }
             if (!target) {
-                target = new Date(now);
-                target.setDate(target.getDate() + 1);
-                target.setHours(SLOTS[0], 0, 0, 0);
+                // 找最近一个还没全部发布的日期的最早时间槽
+                const allDates = [...new Set(all.map(d => d.date))].sort();
+                const futureDates = allDates.filter(d => d > latest.date);
+                for (const dateStr of futureDates) {
+                    const datePublished = new Set(
+                        published.filter(d => d.date === dateStr).map(d => d.time)
+                    );
+                    const available = allTimes.find(t => !datePublished.has(t));
+                    if (available) {
+                        target = new Date(dateStr + 'T' + available);
+                        nextTime = available;
+                        break;
+                    }
+                }
             }
-            document.getElementById('nextSlot').textContent = pad2(target.getHours()) + ':00';
-            let s = Math.floor((target - now) / 1000);
+            if (!target) {
+                nextSlotEl.textContent = '已停止';
+                countdownTimeEl.textContent = '今日已全部发布';
+                return;
+            }
+            nextSlotEl.textContent = nextTime;
+            let s = Math.floor((target - new Date()) / 1000);
+            if (s <= 0) {
+                countdownTimeEl.textContent = '00:00:00';
+                return;
+            }
             const h = Math.floor(s / 3600); s %= 3600;
             const m = Math.floor(s / 60); s %= 60;
-            document.getElementById('countdownTime').textContent = pad2(h) + ':' + pad2(m) + ':' + pad2(s);
+            countdownTimeEl.textContent = pad2(h) + ':' + pad2(m) + ':' + pad2(s);
         }
         setInterval(tickCountdown, 1000);
         tickCountdown();
