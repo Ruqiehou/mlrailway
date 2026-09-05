@@ -44,7 +44,7 @@
     <div class="result" id="result">结果将显示在这里</div>
 
     <div style="text-align: center;">
-        <a href="index.html" class="btn-home">🏠 回主页</a>
+        <a href="../index.html" class="btn-home">🏠 回主页</a>
     </div>
 </div>
 
@@ -155,7 +155,7 @@
 
     window.onload = async function() {
         try {
-            const res = await fetch('price_railway.json');
+            const res = await fetch('../data/price_railway.json');
             if (!res.ok) throw new Error('加载失败');
             const data = await res.json();
             connections = data.connections || {};
